@@ -22,6 +22,7 @@ To get the project from GitHub, you need to clone the repository. You can do thi
 
 ```sh
 git clone https://github.com/AlexanderLihodievskiy/vue-test-kanban.git
+```
 
 ## Project Setup
 
