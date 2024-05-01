@@ -1,6 +1,5 @@
 <template>
   <div class="task-column">
-    <!-- <h2>{{ column.title }}</h2> -->
     <ColumnLabel @remove="remove">{{ column.title }}</ColumnLabel>
     <VueDraggableNext
       class="task-column__tasks"
