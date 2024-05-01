@@ -33,25 +33,21 @@
 
 <script setup>
 import { defineProps, defineEmits } from 'vue'
-import SvgIconAdd from '../assets/svg/i-add.svg?component'
-import SvgIconComments from '../assets/svg/i-comments.svg?component'
-import SvgIconLikes from '../assets/svg/i-likes.svg?component'
-import SvgIconFile from '../assets/svg/i-file.svg?component'
+import SvgIconAdd from '../../../assets/svg/i-add.svg?component'
+import SvgIconComments from '../../../assets/svg/i-comments.svg?component'
+import SvgIconLikes from '../../../assets/svg/i-likes.svg?component'
+import SvgIconFile from '../../../assets/svg/i-file.svg?component'
 
-// Пропы
 const props = defineProps({
   task: Object
 })
 
-// Определение событий
 const emit = defineEmits(['edit-task', 'remove-task'])
 
-// Метод для редактирования задачи
 const editTask = () => {
   emit('edit-task', props.task.id)
 }
 
-// Метод для удаления задачи
 const removeTask = () => {
   emit('remove-task', props.task.id)
 }
@@ -135,10 +131,10 @@ const removeTask = () => {
       padding: 0;
       border: initial;
       cursor: pointer;
-      
+
       svg {
         width: 30px;
-        height: 30px
+        height: 30px;
       }
     }
 

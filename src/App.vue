@@ -10,27 +10,9 @@
 </template>
 
 <script setup>
-import TaskBoard from './components/TaskBoard.vue'
-import PageHeader from './components/PageHeader.vue'
+import TaskBoard from './views/TaskBoard/TaskBoard.vue'
+import PageHeader from './views/TaskBoard/components/PageHeader.vue'
 
-const columns = [
-  {
-    id: 1,
-    title: 'Колонка 1',
-    tasks: [
-      { id: 1, title: 'Задача 1', description: 'Описание задачи 1' },
-      { id: 2, title: 'Задача 2', description: 'Описание задачи 2' }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Колонка 2',
-    tasks: [
-      { id: 3, title: 'Задача 3', description: 'Описание задачи 3' },
-      { id: 4, title: 'Задача 4', description: 'Описание задачи 4' }
-    ]
-  }
-]
 </script>
 
 <style lang="scss" scoped>
@@ -53,7 +35,7 @@ body {
 .desk {
   &__board {
     padding: 30px 0;
-    height: calc(100dvh - 60px);
+    height: calc(100dvh - 69px);
     overflow: hidden;
   }
 }

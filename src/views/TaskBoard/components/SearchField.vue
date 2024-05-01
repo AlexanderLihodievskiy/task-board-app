@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import SvgSearch from '../assets/svg/i-search.svg?component'
+import SvgSearch from '../../../assets/svg/i-search.svg?component'
 </script>
 
 <style lang="scss" scoped>

@@ -22,46 +22,70 @@
       </div>
     </simplebar>
 
-    <!-- <button class="add-column-button" @click="addColumn('New Column')">Add Column</button> -->
-    <TaskModal :isOpen="isModalOpen" @closeModal="closeModal" @addTask="addTaskAndCloseModal" />
+    <TaskModal
+      v-if="isModalOpen"
+      :task="taskToEdit"
+      :isOpen="isModalOpen"
+      @closeModal="closeModal"
+      @addTask="addOrUpdateTaskAndCloseModal"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import TaskColumn from './TaskColumn.vue'
-import TaskModal from './TaskModal.vue'
-import TaskBoardHeader from './TaskBoardHeader.vue'
+import TaskColumn from './components/TaskColumn.vue'
+import TaskModal from './components/TaskModal.vue'
+import TaskBoardHeader from './components/TaskBoardHeader.vue'
 import simplebar from 'simplebar-vue'
 
-// Состояние
-const columns = ref(JSON.parse(localStorage.getItem('columns')) || [
+let initialColumns = [
   { id: 1, title: 'Design', tasks: [] },
   { id: 2, title: 'Prototype', tasks: [] },
   { id: 3, title: 'Trello', tasks: [] },
   { id: 4, title: 'Test', tasks: [] },
   { id: 5, title: 'Final', tasks: [] }
-]);
+]
+
+try {
+  const savedColumns = localStorage.getItem('columns')
+  if (savedColumns) {
+    initialColumns = JSON.parse(savedColumns)
+  }
+} catch (error) {
+  console.error('Failed to parse columns from localStorage', error)
+}
+
+const columns = ref(initialColumns)
 
 const isModalOpen = ref(false)
 const currentColumnId = ref(null)
+const taskToEdit = ref(null)
 
 const updateColumn = (updatedColumn) => {
-  const index = columns.value.findIndex(column => column.id === updatedColumn.id)
+  const index = columns.value.findIndex((column) => column.id === updatedColumn.id)
   if (index !== -1) {
     columns.value[index] = updatedColumn
   }
 }
 
-const addTask = ({ title, description, columnId }) => {
-  const column = columns.value.find((column) => column.id === columnId)
-  if (column) {
-    const newTask = { id: Date.now(), title, description }
-    column.tasks.push(newTask)
+const addOrUpdateTaskAndCloseModal = (task) => {
+  if (task.id) {
+    const column = columns.value.find((column) => column.tasks.find((t) => t.id === task.id))
+    const taskToUpdate = column.tasks.find((t) => t.id === task.id)
+    taskToUpdate.title = task.title
+    taskToUpdate.description = task.description
+  } else {
+    const id =
+      Math.max(...columns.value.flatMap((column) => column.tasks.map((task) => task.id)), 0) + 1
+    task.id = id
+    const column = columns.value.find((column) => column.id === currentColumnId.value)
+    column.tasks.push(task)
   }
+
+  closeModal()
 }
 
-// Следим за изменениями в состоянии и сохраняем их в localStorage
 watch(
   columns,
   () => {
@@ -70,21 +94,20 @@ watch(
   { deep: true }
 )
 
-// Восстанавливаем состояние при монтировании компонента
 onMounted(() => {
-  const savedColumns = localStorage.getItem('columns');
-  if (savedColumns) {
-    columns.value = JSON.parse(savedColumns);
+  try {
+    const savedColumns = localStorage.getItem('columns')
+    if (savedColumns) {
+      columns.value = JSON.parse(savedColumns)
+    }
+  } catch (error) {
+    console.error('Failed to parse columns from localStorage', error)
   }
-});
+})
 
 const closeModal = () => {
   isModalOpen.value = false
-}
-
-const addTaskAndCloseModal = (task) => {
-  addTask({ ...task, columnId: currentColumnId.value })
-  closeModal()
+  taskToEdit.value = null
 }
 
 const openModal = (columnId) => {
@@ -92,25 +115,18 @@ const openModal = (columnId) => {
   isModalOpen.value = true
 }
 
-// Метод для редактирования задачи
-const editTask = ({ columnId, taskId, newTaskData }) => {
-  console.log('EDIT')
+const editTask = ({ columnId, taskId }) => {
   const column = columns.value.find((column) => column.id === columnId)
   if (column) {
     const task = column.tasks.find((task) => task.id === taskId)
     if (task) {
-      Object.assign(task, newTaskData)
+      taskToEdit.value = task
+      isModalOpen.value = true
     }
   }
 }
 
-// // Метод для добавления новой колонки
-// const addColumn = (title) => {
-//   const newColumn = { id: Date.now(), title, tasks: [] }
-//   columns.value.push(newColumn)
-// }
 
-// Метод для удаления колонки
 const removeColumn = (id) => {
   const index = columns.value.findIndex((column) => column.id === id)
   if (index !== -1) {

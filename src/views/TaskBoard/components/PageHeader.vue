@@ -39,14 +39,14 @@
 </template>
 
 <script setup>
-import SvgLogo from '../assets/svg/logo.svg?component'
-import SvgBoards from '../assets/svg/i-boards.svg?component'
+import SvgLogo from '../../../assets/svg/logo.svg?component'
+import SvgBoards from '../../../assets/svg/i-boards.svg?component'
 import SearchField from './SearchField.vue'
-import SvgPlus from '../assets/svg/i-plus.svg?component'
-import SvgAlert from '../assets/svg/i-alert.svg?component'
-import SvgBell from '../assets/svg/i-bell.svg?component'
-import SvgSearch from '../assets/svg/i-search.svg?component'
-import imgAvatar from '../assets/img/avatar.png'
+import SvgPlus from '../../../assets/svg/i-plus.svg?component'
+import SvgAlert from '../../../assets/svg/i-alert.svg?component'
+import SvgBell from '../../../assets/svg/i-bell.svg?component'
+import SvgSearch from '../../../assets/svg/i-search.svg?component'
+import imgAvatar from '../../../assets/img/avatar.png'
 </script>
 
 <style lang="scss" scoped>

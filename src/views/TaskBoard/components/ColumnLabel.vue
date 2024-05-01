@@ -15,8 +15,8 @@
 </template>
 
 <script setup>
-import SvgImage from '../assets/svg/i-dots.svg?component'
-import SvgRemoveColumn from '../assets/svg/i-close.svg?component'
+import SvgImage from '../../../assets/svg/i-dots.svg?component'
+import SvgRemoveColumn from '../../../assets/svg/i-close.svg?component'
 </script>
 
 <style lang="scss" scoped>

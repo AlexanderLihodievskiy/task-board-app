@@ -25,10 +25,10 @@
 </template>
 
 <script setup>
-import SvgIconLikes from '../assets/svg/i-likes.svg?component'
-import SvgIconGlobe from '../assets/svg/i-globe.svg?component'
-import SvgIconHard from '../assets/svg/i-hard.svg?component'
-import usersImg from '../assets/img/users.png'
+import SvgIconLikes from '../../../assets/svg/i-likes.svg?component'
+import SvgIconGlobe from '../../../assets/svg/i-globe.svg?component'
+import SvgIconHard from '../../../assets/svg/i-hard.svg?component'
+import usersImg from '../../../assets/img/users.png'
 </script>
 
 <style lang="scss" scoped>

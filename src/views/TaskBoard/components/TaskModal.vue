@@ -11,7 +11,11 @@
         </div>
         <div class="input-group" :class="{ error: descriptionError }">
           <label for="task-description">Description:</label>
-          <textarea id="task-description" v-model="description" @input="descriptionError = false"></textarea>
+          <textarea
+            id="task-description"
+            v-model="description"
+            @input="descriptionError = false"
+          ></textarea>
           <p class="error-message" v-if="descriptionError">
             Необходимо ввести данные перед добавлением задачи
           </p>
@@ -26,9 +30,10 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits, toRefs } from 'vue'
+import { ref, defineProps, defineEmits, toRefs, watch } from 'vue'
 
 const props = defineProps({
+  task: Object,
   isOpen: Boolean
 })
 
@@ -40,6 +45,17 @@ const description = ref('')
 const titleError = ref(false)
 const descriptionError = ref(false)
 
+watch(
+  () => props.task,
+  (newTask) => {
+    if (newTask) {
+      title.value = newTask.title
+      description.value = newTask.description
+    }
+  },
+  { immediate: true }
+)
+
 const saveTask = () => {
   titleError.value = !title.value
   descriptionError.value = !description.value
@@ -48,7 +64,14 @@ const saveTask = () => {
     return
   }
 
-  emit('addTask', { title: title.value, description: description.value })
+  const task = {
+    title: title.value,
+    description: description.value,
+    columnId: props.task?.columnId
+  }
+
+  emit('addTask', { ...task, id: props.task?.id })
+
   closeModal()
 }
 
